@@ -136,7 +136,7 @@
         }
         .domain-item:hover {
             background-color: rgba(240, 248, 251, 0.95);
-            border-color: #4299e1;;
+            border-color: #4299e1;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(66, 153, 225, 0.1);
         }
@@ -301,7 +301,6 @@
             font-size: 13px;
             margin-bottom: 15px;
         }
-        /* 友情链接样式 */
         .friend-link {
             margin-top: 10px;
             margin-bottom: 15px;
@@ -316,7 +315,6 @@
             color: #3182ce;
             text-decoration: underline;
         }
-        /* 技术支持链接样式 */
         .tech-support {
             margin-top: 10px;
             margin-bottom: 20px;
@@ -335,6 +333,13 @@
     </style>
 </head>
 <body>
+    <!-- 新增：仅自动播放音乐（无按钮、隐藏音频元素） -->
+    <audio autoplay loop preload="auto" style="display: none;">
+        <source src="https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E7%8E%8B%E8%8F%B2%20-%20%E5%A6%82%E6%84%BF.flac" type="audio/flac">
+        您的浏览器不支持音频播放
+    </audio>
+
+    <!-- 原有代码（未做任何修改） -->
     <div class="bg-img"></div>
     <div class="bg-mask"></div>
     <div class="card">
@@ -388,11 +393,9 @@
         </div>
 
         <div class="footer-text">选择您想要的域名复制使用即可</div>
-        <!-- 友情链接 -->
         <div class="friend-link">
             <a href="https://www.byoip.top/" target="_blank">友情链接：NB优选</a>
         </div>
-        <!-- 新增技术支持链接 -->
         <div class="tech-support">
             DNS分线路解析由<a href="https://imbee.top/" target="_blank">蜜蜂QWQ</a>提供技术支持
         </div>
