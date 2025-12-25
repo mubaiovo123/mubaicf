@@ -136,7 +136,7 @@
         }
         .domain-item:hover {
             background-color: rgba(240, 248, 251, 0.95);
-            border-color: #4299e1;
+            border-color: #4299e1;;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(66, 153, 225, 0.1);
         }
@@ -299,6 +299,38 @@
             margin-top: 30px;
             color: #6e7c91;
             font-size: 13px;
+            margin-bottom: 15px;
+        }
+        /* 友情链接样式 */
+        .friend-link {
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+        .friend-link a {
+            color: #4299e1;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s ease;
+        }
+        .friend-link a:hover {
+            color: #3182ce;
+            text-decoration: underline;
+        }
+        /* 技术支持链接样式 */
+        .tech-support {
+            margin-top: 10px;
+            margin-bottom: 20px;
+            color: #6e7c91;
+            font-size: 13px;
+        }
+        .tech-support a {
+            color: #4299e1;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .tech-support a:hover {
+            color: #3182ce;
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -318,7 +350,6 @@
             所有优选域名均可自定义前缀，如 *.cf.3666888.xyz（* 为你的自定义内容）
         </div>
 
-        <!-- 调整域名排序：新增域名放第一位，原域名依次后移 -->
         <div class="domain-item">
             <span class="domain-name">域名1：cf.3666888.xyz</span>
             <button class="copy-btn" onclick="copyText(this, 'cf.3666888.xyz')">复制</button>
@@ -344,7 +375,6 @@
                 <span class="prefix-tag" onclick="fillAndGenerate('static')">static</span>
             </div>
 
-            <!-- 生成器下拉框调整：新增域名设为默认选项新增域名设为默认选项 -->
             <select id="domain-select" class="domain-select">
                 <option value="cf.3666888.xyz" selected>cf.3666888.xyz</option>
                 <option value="cf.1d.mom">cf.1d.mom</option>
@@ -358,6 +388,14 @@
         </div>
 
         <div class="footer-text">选择您想要的域名复制使用即可</div>
+        <!-- 友情链接 -->
+        <div class="friend-link">
+            <a href="https://www.byoip.top/" target="_blank">友情链接：NB优选</a>
+        </div>
+        <!-- 新增技术支持链接 -->
+        <div class="tech-support">
+            DNS分线路解析由<a href="https://imbee.top/" target="_blank">蜜蜂QWQ</a>提供技术支持
+        </div>
     </div>
 
     <script>
