@@ -5,335 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Cloudflare 优选 CNAME 域名发布页</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'PingFang SC', 'Helvetica Neue', sans-serif;
-        }
-        body {
-            min-height: 100vh;
-            padding: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding-top: 30px;
-            position: relative;
-            background-color: #f5f7fa;
-        }
-        .bg-img {
+        /* 原有样式不变，新增隐藏视频标签样式 */
+        #hidden-video {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://pan.3666888.xyz/raw/app图片资源/1766672138019.png') no-repeat center center;
-            background-size: cover;
-            opacity: 0.9;
-            z-index: -2;
+            top: -9999px;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
             pointer-events: none;
         }
-        .bg-mask {
+        #audio-status {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.2);
-            z-index: -1;
-            pointer-events: none;
-        }
-        .card {
-            background-color: rgba(255, 255, 255, 0.85);
-            width: 100%;
-            max-width: 400px;
-            padding: 30px 20px;
-            border-radius: 18px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-            text-align: center;
-            position: relative;
-            backdrop-filter: blur(4px);
-        }
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #4299e1, #38b2ac);
-            border-radius: 18px 18px 0 0;
-        }
-        h1 {
-            background: linear-gradient(90deg, #2d3748, #4299e1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-size: 22px;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        .subtitle {
-            color: #9aa5b1;
-            font-size: 13px;
-            margin-bottom: 20px;
-        }
-        .link-group {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        .link-btn {
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            border: 1px solid #4299e1;
-        }
-        .mubai-home, .add-qq {
-            background-color: #e8f4f8;
-            color: #4299e1;
-        }
-        .mubai-home:hover, .add-qq:hover {
-            background-color: #4299e1;
-            color: white;
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(66, 153, 225, 0.2);
-        }
-        .notice {
-            background-color: rgba(255, 248, 248, 0.9);
-            color: #e53e3e;
-            padding: 15px 12px;
-            border-radius: 12px;
-            margin: 20px 0;
-            font-weight: 600;
-            font-size: 14px;
-            line-height: 1.5;
-            border: 1px solid #ffecec;
-            position: relative;
-            padding-left: 30px;
-        }
-        .notice::before {
-            content: '💡';
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-        .domain-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: rgba(250, 251, 252, 0.9);
-            padding: 16px 15px;
-            border-radius: 12px;
-            margin: 12px 0;
-            transition: all 0.2s ease;
-            border: 1px solid #f0f2f5;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .domain-item:hover {
-            background-color: rgba(240, 248, 251, 0.95);
-            border-color: #4299e1;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.1);
-        }
-        .domain-name {
-            color: #2d3748;
-            font-size: 15px;
-            font-weight: 500;
-            flex: 1;
-            min-width: 0;
-            text-align: left;
-        }
-        .copy-btn {
-            background: linear-gradient(90deg, #4299e1, #38b2ac);
-            color: white;
-            border: none;
-            padding: 9px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            min-width: 70px;
-            box-shadow: 0 2px 8px rgba(66, 153, 225, 0.2);
-        }
-        .copy-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
-        }
-        .copy-btn.success {
-            background: linear-gradient(90deg, #38a169, #38b2ac);
-        }
-        .generator-title {
-            color: #2d3748;
-            font-size: 17px;
-            font-weight: 600;
-            margin: 30px 0 15px;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .generator-title::before {
-            content: '';
-            width: 4px;
-            height: 20px;
-            background-color: #4299e1;
-            border-radius: 2px;
-        }
-        .prefix-generator {
-            background-color: rgba(240, 248, 251, 0.9);
-            padding: 20px 15px;
-            border-radius: 12px;
-            border: 1px solid #e8f4f8;
-        }
-        .prefix-input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            font-size: 14px;
-            outline: none;
-            margin-bottom: 12px;
-            transition: border-color 0.2s;
-        }
-        .prefix-input:focus {
-            border-color: #4299e1;
-            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
-        }
-        .prefix-input.valid {
-            border-color: #38a169;
-        }
-        .prefix-input.invalid {
-            border-color: #e53e3e;
-        }
-        .prefix-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 15px;
-        }
-        .prefix-tag {
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
             padding: 6px 12px;
-            background-color: #e8f4f8;
-            color: #4299e1;
-            border: 1px solid #4299e1;
             border-radius: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
             font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
         }
-        .prefix-tag:hover {
-            background-color: #4299e1;
-            color: white;
-            transform: translateY(-1px);
+        #audio-status.show {
+            opacity: 1;
         }
-        .domain-select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            font-size: 14px;
-            margin-bottom: 12px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        .domain-select:focus {
-            border-color: #4299e1;
-            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
-        }
-        .generate-btn {
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(90deg, #4299e1, #38b2ac);
-            color: #ffffff;
-            border: none;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 8px rgba(66, 153, 225, 0.2);
-            transition: all 0.2s ease;
-        }
-        .generate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
-        }
-        #tip-text {
-            text-align: left;
-            font-size: 12px;
-            color: #e53e3e;
-            margin-bottom: 15px;
-        }
-        .result-box {
-            width: 100%;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            text-align: left;
-            transition: all 0.2s ease;
-        }
-        .result-box:hover {
-            border-color: #4299e1;
-            box-shadow: 0 2px 8px rgba(66, 153, 225, 0.1);
-        }
-        #result-domain {
-            color: #2d3748;
-            font-size: 15px;
-            font-weight: 500;
-            word-break: break-all;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-        .result-copy-btn {
-            width: 100%;
-        }
-        .footer-text {
-            margin-top: 30px;
-            color: #6e7c91;
-            font-size: 13px;
-            margin-bottom: 15px;
-        }
-        .friend-link {
-            margin-top: 10px;
-            margin-bottom: 15px;
-        }
-        .friend-link a {
-            color: #4299e1;
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.2s ease;
-        }
-        .friend-link a:hover {
-            color: #3182ce;
-            text-decoration: underline;
-        }
-        .tech-support {
-            margin-top: 10px;
-            margin-bottom: 20px;
-            color: #6e7c91;
-            font-size: 13px;
-        }
-        .tech-support a {
-            color: #4299e1;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-        .tech-support a:hover {
-            color: #3182ce;
-            text-decoration: underline;
-        }
+        /* 以下为原有样式 */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'PingFang SC', sans-serif; }
+        body { min-height: 100vh; padding: 15px; display: flex; justify-content: center; align-items: flex-start; padding-top: 30px; position: relative; background-color: #f5f7fa; }
+        .bg-img { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('https://pan.3666888.xyz/raw/app图片资源/1766672138019.png') no-repeat center center; background-size: cover; opacity: 0.9; z-index: -2; pointer-events: none; }
+        .bg-mask { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.2); z-index: -1; pointer-events: none; }
+        .card { background-color: rgba(255, 255, 255, 0.85); width: 100%; max-width: 400px; padding: 30px 20px; border-radius: 18px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15); text-align: center; position: relative; backdrop-filter: blur(4px); }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #4299e1, #38b2ac); border-radius: 18px 18px 0 0; }
+        h1 { background: linear-gradient(90deg, #2d3748, #4299e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 22px; margin-bottom: 8px; font-weight: 600; }
+        .subtitle { color: #9aa5b1; font-size: 13px; margin-bottom: 20px; }
+        .link-group { display: flex; gap: 10px; justify-content: center; margin-bottom: 20px; }
+        .link-btn { padding: 8px 16px; border-radius: 20px; font-size: 14px; text-decoration: none; transition: all 0.2s ease; border: 1px solid #4299e1; }
+        .mubai-home, .add-qq { background-color: #e8f4f8; color: #4299e1; }
+        .mubai-home:hover, .add-qq:hover { background-color: #4299e1; color: white; transform: translateY(-1px); box-shadow: 0 2px 8px rgba(66, 153, 225, 0.2); }
+        .notice { background-color: rgba(255, 248, 248, 0.9); color: #e53e3e; padding: 15px 12px; border-radius: 12px; margin: 20px 0; font-weight: 600; font-size: 14px; line-height: 1.5; border: 1px solid #ffecec; position: relative; padding-left: 30px; }
+        .notice::before { content: '💡'; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); }
+        .domain-item { display: flex; justify-content: space-between; align-items: center; background-color: rgba(250, 251, 252, 0.9); padding: 16px 15px; border-radius: 12px; margin: 12px 0; transition: all 0.2s ease; border: 1px solid #f0f2f5; flex-wrap: wrap; gap: 10px; }
+        .domain-item:hover { background-color: rgba(240, 248, 251, 0.95); border-color: #4299e1; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(66, 153, 225, 0.1); }
+        .domain-name { color: #2d3748; font-size: 15px; font-weight: 500; flex: 1; min-width: 0; text-align: left; }
+        .copy-btn { background: linear-gradient(90deg, #4299e1, #38b2ac); color: white; border: none; padding: 9px 18px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s ease; min-width: 70px; box-shadow: 0 2px 8px rgba(66, 153, 225, 0.2); }
+        .copy-btn:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3); }
+        .copy-btn.success { background: linear-gradient(90deg, #38a169, #38b2ac); }
+        .generator-title { color: #2d3748; font-size: 17px; font-weight: 600; margin: 30px 0 15px; text-align: left; display: flex; align-items: center; gap: 8px; }
+        .generator-title::before { content: ''; width: 4px; height: 20px; background-color: #4299e1; border-radius: 2px; }
+        .prefix-generator { background-color: rgba(240, 248, 251, 0.9); padding: 20px 15px; border-radius: 12px; border: 1px solid #e8f4f8; }
+        .prefix-input { width: 100%; padding: 12px 15px; border: 1px solid #dee2e6; border-radius: 8px; font-size: 14px; outline: none; margin-bottom: 12px; transition: border-color 0.2s; }
+        .prefix-input:focus { border-color: #4299e1; box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1); }
+        .prefix-input.valid { border-color: #38a169; }
+        .prefix-input.invalid { border-color: #e53e3e; }
+        .prefix-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
+        .prefix-tag { padding: 6px 12px; background-color: #e8f4f8; color: #4299e1; border: 1px solid #4299e1; border-radius: 20px; font-size: 12px; cursor: pointer; transition: all 0.2s ease; }
+        .prefix-tag:hover { background-color: #4299e1; color: white; transform: translateY(-1px); }
+        .domain-select { width: 100%; padding: 12px 15px; border: 1px solid #dee2e6; border-radius: 8px; font-size: 14px; margin-bottom: 12px; outline: none; transition: border-color 0.2s; }
+        .domain-select:focus { border-color: #4299e1; box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1); }
+        .generate-btn { width: 100%; padding: 12px; background: linear-gradient(90deg, #4299e1, #38b2ac); color: #ffffff; border: none; border-radius: 8px; font-size: 15px; font-weight: 500; cursor: pointer; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(66, 153, 225, 0.2); transition: all 0.2s ease; }
+        .generate-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3); }
+        #tip-text { text-align: left; font-size: 12px; color: #e53e3e; margin-bottom: 15px; }
+        .result-box { width: 100%; padding: 15px; background-color: #f8f9fa; border: 1px solid #e9ecef; border-radius: 8px; margin-bottom: 10px; text-align: left; transition: all 0.2s ease; }
+        .result-box:hover { border-color: #4299e1; box-shadow: 0 2px 8px rgba(66, 153, 225, 0.1); }
+        #result-domain { color: #2d3748; font-size: 15px; font-weight: 500; word-break: break-all; white-space: pre-wrap; word-wrap: break-word; }
+        .result-copy-btn { width: 100%; }
+        .footer-text { margin-top: 30px; color: #6e7c91; font-size: 13px; margin-bottom: 15px; }
+        .friend-link { margin-top: 10px; margin-bottom: 15px; }
+        .friend-link a { color: #4299e1; text-decoration: none; font-size: 14px; transition: color 0.2s ease; }
+        .friend-link a:hover { color: #3182ce; text-decoration: underline; }
+        .tech-support { margin-top: 10px; margin-bottom: 20px; color: #6e7c91; font-size: 13px; }
+        .tech-support a { color: #4299e1; text-decoration: none; transition: color 0.2s ease; }
+        .tech-support a:hover { color: #3182ce; text-decoration: underline; }
     </style>
 </head>
 <body>
-    <!-- 原有页面内容，无额外音频标签 -->
+    <!-- 音频状态提示 -->
+    <div id="audio-status"></div>
+    <!-- 隐藏视频标签 -->
+    <video id="hidden-video" preload="metadata" crossorigin="anonymous"></video>
+
     <div class="bg-img"></div>
     <div class="bg-mask"></div>
     <div class="card">
@@ -396,79 +150,103 @@
     </div>
 
     <script>
-        // ========== 手机端适配 Web Audio API 核心代码 ==========
-        let audioContext = null;
-        let audioBuffer = null;
-        let sourceNode = null;
-        // 音频地址（FLAC 为主，可自行添加 MP3 备用地址）
-        const audioUrl = 'https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E7%8E%8B%E8%8F%B2%20-%20%E5%A6%82%E6%84%BF.flac';
+        // 状态提示工具函数
+        const statusEl = document.getElementById('audio-status');
+        function showAudioStatus(text, duration = 2000) {
+            statusEl.textContent = text;
+            statusEl.classList.add('show');
+            setTimeout(() => {
+                statusEl.classList.remove('show');
+            }, duration);
+        }
 
-        // 初始化音频上下文（兼容移动端前缀）
+        // ========== 视频音频提取核心逻辑 ==========
+        let audioContext = null;
+        let sourceNode = null;
+        const videoEl = document.getElementById('hidden-video');
+        // 替换为你提供的视频链接
+        const videoUrls = [
+            "https://pan.3666888.xyz/raw/app图片资源/131736ae28936d7e1f447ea888563b86.mp4"
+        ];
+        let currentVideoIndex = 0;
+
+        // 初始化音频上下文
         function initAudioContext() {
             if (!audioContext) {
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                showAudioStatus("初始化音频引擎...");
+            }
+            if (audioContext.state === 'suspended') {
+                audioContext.resume().then(() => {
+                    showAudioStatus("音频引擎已恢复");
+                });
             }
         }
 
-        // 加载音频文件
-        function loadAudio() {
-            if (audioBuffer) return; // 避免重复加载
-            fetch(audioUrl)
-                .then(response => response.arrayBuffer())
-                .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-                .then(decodedBuffer => {
-                    audioBuffer = decodedBuffer;
-                })
-                .catch(err => console.log('音频加载失败:', err));
-        }
-
-        // 播放音频（循环）
-        function playAudio() {
-            if (!audioBuffer || !audioContext) return;
-            // 停止之前的播放
-            if (sourceNode) {
-                sourceNode.stop();
-                sourceNode.disconnect();
+        // 加载视频并提取音频
+        function loadVideoAudio() {
+            if (currentVideoIndex >= videoUrls.length) {
+                showAudioStatus("所有视频地址加载失败", 3000);
+                return;
             }
-            sourceNode = audioContext.createBufferSource();
-            sourceNode.buffer = audioBuffer;
-            sourceNode.loop = true; // 循环播放
-            sourceNode.connect(audioContext.destination);
-            sourceNode.start(0);
+            const currentUrl = videoUrls[currentVideoIndex];
+            showAudioStatus("正在加载视频音频...");
+            
+            videoEl.src = currentUrl;
+            videoEl.load();
+
+            // 视频可播放时提取音频流
+            videoEl.oncanplay = function() {
+                showAudioStatus("视频加载成功，提取音频中...");
+                // 创建媒体音频源节点
+                const mediaSource = audioContext.createMediaElementSource(videoEl);
+                // 连接到音频输出
+                mediaSource.connect(audioContext.destination);
+                // 播放视频（仅音频，画面隐藏）
+                videoEl.play().then(() => {
+                    showAudioStatus("音频开始播放", 1500);
+                    // 循环播放
+                    videoEl.loop = true;
+                }).catch(err => {
+                    showAudioStatus(`播放失败：${err.message}`, 3000);
+                    currentVideoIndex++;
+                    loadVideoAudio();
+                });
+            };
+
+            // 视频加载失败
+            videoEl.onerror = function() {
+                showAudioStatus(`视频加载失败，尝试备用地址`, 2000);
+                currentVideoIndex++;
+                loadVideoAudio();
+            };
         }
 
-        // 移动端交互触发：触摸/点击 初始化并播放
+        // 移动端交互触发
         function handleInteraction() {
             initAudioContext();
-            loadAudio();
-            // 音频加载完成后自动播放
-            const checkBuffer = setInterval(() => {
-                if (audioBuffer) {
-                    playAudio();
-                    clearInterval(checkBuffer);
-                }
-            }, 100);
-            // 只触发一次
+            loadVideoAudio();
             document.removeEventListener('touchstart', handleInteraction);
             document.removeEventListener('click', handleInteraction);
         }
 
-        // 监听移动端交互事件
+        // 监听交互事件
         document.addEventListener('touchstart', handleInteraction, { once: true });
         document.addEventListener('click', handleInteraction, { once: true });
 
-        // 页面隐藏时暂停音频（省电）
+        // 页面隐藏/显示时暂停/恢复
         document.addEventListener('visibilitychange', () => {
-            if (audioContext) {
-                if (document.hidden) {
-                    audioContext.suspend();
-                } else {
-                    audioContext.resume();
-                }
+            if (videoEl.paused) return;
+            if (document.hidden) {
+                videoEl.pause();
+                showAudioStatus("音频已暂停", 1500);
+            } else {
+                videoEl.play();
+                showAudioStatus("音频已恢复", 1500);
             }
         });
 
-        // ========== 原有脚本功能 ==========
+        // ========== 原有页面功能函数 ==========
         function copyText(btn, text) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalText = btn.textContent;
