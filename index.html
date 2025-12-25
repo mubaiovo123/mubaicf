@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cloudflare 优选 CNAME 域名</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Helvetica Neue', sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 30px;
+            position: relative;
+            background-color: #f5f7fa;
+        }
+        .bg-img {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://pan.3666888.xyz/raw/app图片资源/1766672138019.png') no-repeat center center;
+            background-size: cover;
+            opacity: 0.9;
+            z-index: -2;
+            pointer-events: none;
+        }
+        .bg-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.2);
+            z-index: -1;
+            pointer-events: none;
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.85);
+            width: 100%;
+            max-width: 400px;
+            padding: 30px 20px;
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            position: relative;
+            backdrop-filter: blur(4px);
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4299e1, #38b2ac);
+            border-radius: 18px 18px 0 0;
+        }
+        h1 {
+            background: linear-gradient(90deg, #2d3748, #4299e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 22px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .subtitle {
+            color: #9aa5b1;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+        /* 双链接容器样式 */
+        .link-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .link-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid #4299e1;
+        }
+        /* 统一蓝色系样式 */
+        .mubai-home, .add-qq {
+            background-color: #e8f4f8;
+            color: #4299e1;
+        }
+        .mubai-home:hover, .add-qq:hover {
+            background-color: #4299e1;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(66, 153, 225, 0.2);
+        }
+        .notice {
+            background-color: rgba(255, 248, 248, 0.9);
+            color: #e53e3e;
+            padding: 15px 12px;
+            border-radius: 12px;
+            margin: 20px 0;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 1.5;
+            border: 1px solid #ffecec;
+            position: relative;
+            padding-left: 30px;
+        }
+        .notice::before {
+            content: '💡';
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .domain-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(250, 251, 252, 0.9);
+            padding: 16px 15px;
+            border-radius: 12px;
+            margin: 12px 0;
+            transition: all 0.2s ease;
+            border: 1px solid #f0f2f5;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .domain-item:hover {
+            background-color: rgba(240, 248, 251, 0.95);
+            border-color: #4299e1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.1);
+        }
+        .domain-name {
+            color: #2d3748;
+            font-size: 15px;
+            font-weight: 500;
+            flex: 1;
+            min-width: 0;
+            text-align: left;
+        }
+        .copy-btn {
+            background: linear-gradient(90deg, #4299e1, #38b2ac);
+            color: white;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            min-width: 70px;
+            box-shadow: 0 2px 8px rgba(66, 153, 225, 0.2);
+        }
+        .copy-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+        }
+        .copy-btn.success {
+            background: linear-gradient(90deg, #38a169, #38b2ac);
+        }
+        .generator-title {
+            color: #2d3748;
+            font-size: 17px;
+            font-weight: 600;
+            margin: 30px 0 15px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .generator-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background-color: #4299e1;
+            border-radius: 2px;
+        }
+        .prefix-generator {
+            background-color: rgba(240, 248, 251, 0.9);
+            padding: 20px 15px;
+            border-radius: 12px;
+            border: 1px solid #e8f4f8;
+        }
+        .prefix-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            margin-bottom: 12px;
+            transition: border-color 0.2s;
+        }
+        .prefix-input:focus {
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+        }
+        .prefix-input.valid {
+            border-color: #38a169;
+        }
+        .prefix-input.invalid {
+            border-color: #e53e3e;
+        }
+        .prefix-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .prefix-tag {
+            padding: 6px 12px;
+            background-color: #e8f4f8;
+            color: #4299e1;
+            border: 1px solid #4299e1;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .prefix-tag:hover {
+            background-color: #4299e1;
+            color: white;
+            transform: translateY(-1px);
+        }
+        .domain-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 12px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .domain-select:focus {
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+        }
+        .generate-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #4299e1, #38b2ac);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(66, 153, 225, 0.2);
+            transition: all 0.2s ease;
+        }
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+        }
+        #tip-text {
+            text-align: left;
+            font-size: 12px;
+            color: #e53e3e;
+            margin-bottom: 15px;
+        }
+        .result-box {
+            width: 100%;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+        .result-box:hover {
+            border-color: #4299e1;
+            box-shadow: 0 2px 8px rgba(66, 153, 225, 0.1);
+        }
+        #result-domain {
+            color: #2d3748;
+            font-size: 15px;
+            font-weight: 500;
+            word-break: break-all;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .result-copy-btn {
+            width: 100%;
+        }
+        .footer-text {
+            margin-top: 30px;
+            color: #6e7c91;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-img"></div>
+    <div class="bg-mask"></div>
+    <div class="card">
+        <h1>Cloudflare 优选 CNAME 域名</h1>
+        <p class="subtitle">高效稳定 · 支持自定义前缀</p>
+
+        <!-- 双蓝色链接容器 -->
+        <div class="link-group">
+            <a href="https://zhuye.3666888.xyz" class="link-btn mubai-home" target="_blank">慕白主页</a>
+            <a href="https://qm.qq.com/q/T8Y19Bhd8O" class="link-btn add-qq" target="_blank">加我QQ</a>
+        </div>
+        
+        <div class="notice">
+            所有优选域名均可自定义前缀，如 *.cf.1d.mom（* 为你的自定义内容）
+        </div>
+
+        <div class="domain-item">
+            <span class="domain-name">域名1：cf.1d.mom</span>
+            <button class="copy-btn" onclick="copyText(this, 'cf.1d.mom')">复制</button>
+        </div>
+        <div class="domain-item">
+            <span class="domain-name">域名2：cf.mubaiovo.top</span>
+            <button class="copy-btn" onclick="copyText(this, 'cf.mubaiovo.top')">复制</button>
+        </div>
+
+        <h2 class="generator-title">自定义前缀CNAME域名生成器</h2>
+        <div class="prefix-generator">
+            <input type="text" id="prefix-input" class="prefix-input" placeholder="输入自定义前缀（如cdn）" oninput="checkPrefix()">
+            
+            <div class="prefix-tags">
+                <span class="prefix-tag" onclick="fillAndGenerate('cdn')">cdn</span>
+                <span class="prefix-tag" onclick="fillAndGenerate('www')">www</span>
+                <span class="prefix-tag" onclick="fillAndGenerate('img')">img</span>
+                <span class="prefix-tag" onclick="fillAndGenerate('video')">video</span>
+                <span class="prefix-tag" onclick="fillAndGenerate('static')">static</span>
+            </div>
+
+            <select id="domain-select" class="domain-select">
+                <option value="cf.1d.mom">cf.1d.mom</option>
+                <option value="cf.mubaiovo.top">cf.mubaiovo.top</option>
+            </select>
+            <button class="generate-btn" onclick="generateDomain()">生成完整 CNAME 域名</button>
+            <div id="tip-text"></div>
+            
+            <div class="result-box" id="result-domain" style="display: none;"></div>
+            <button class="copy-btn result-copy-btn" onclick="copyResult()" style="display: none;">复制生成的域名</button>
+        </div>
+
+        <div class="footer-text">选择您想要的域名复制使用即可</div>
+    </div>
+
+    <script>
+        function copyText(btn, text) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = btn.textContent;
+                btn.textContent = "已复制";
+                btn.classList.add('success');
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove('success');
+                }, 1500);
+            }).catch(err => {
+                alert("复制失败，请手动复制");
+                console.error('复制失败: ', err);
+            });
+        }
+
+        function checkPrefix() {
+            const prefixInput = document.getElementById('prefix-input');
+            const tipText = document.getElementById('tip-text');
+            const reg = /^[a-zA-Z0-9_\-]+$/;
+            const prefix = prefixInput.value.trim();
+
+            if (prefix === '') {
+                prefixInput.classList.remove('valid', 'invalid');
+                tipText.textContent = '';
+                return;
+            }
+
+            if (reg.test(prefix)) {
+                prefixInput.classList.add('valid');
+                prefixInput.classList.remove('invalid');
+                tipText.textContent = '';
+            } else {
+                prefixInput.classList.add('invalid');
+                prefixInput.classList.remove('valid');
+                tipText.textContent = '前缀仅支持字母、数字、下划线和短横线';
+            }
+        }
+
+        function fillAndGenerate(prefix) {
+            const prefixInput = document.getElementById('prefix-input');
+            prefixInput.value = prefix;
+            checkPrefix();
+            generateDomain();
+        }
+
+        function generateDomain() {
+            const prefixInput = document.getElementById('prefix-input');
+            const prefix = prefixInput.value.trim();
+            const domain = document.getElementById('domain-select').value;
+            const tipText = document.getElementById('tip-text');
+            const resultDomain = document.getElementById('result-domain');
+            const resultCopyBtn = document.querySelector('.result-copy-btn');
+            const reg = /^[a-zA-Z0-9_\-]+$/;
+
+            if (!prefix) {
+                alert("请输入自定义前缀！");
+                return;
+            }
+
+            if (!reg.test(prefix)) {
+                tipText.textContent = '前缀格式非法，请修改后重试';
+                return;
+            }
+
+            const fullDomain = `${prefix}.${domain}`;
+            resultDomain.textContent = fullDomain;
+            resultDomain.style.display = 'block';
+            resultCopyBtn.style.display = 'block';
+        }
+
+        function copyResult() {
+            const resultText = document.getElementById('result-domain').textContent;
+            if (!resultText) {
+                alert("请先生成域名！");
+                return;
+            }
+            const btn = document.querySelector('.result-copy-btn');
+            copyText(btn, resultText);
+        }
+    </script>
+</body>
+</html>
