@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cloudflare 优选 CNAME 域名</title>
+    <title>Cloudflare 优选 CNAME 域名发布页</title>
     <style>
         * {
             margin: 0;
@@ -77,7 +77,6 @@
             font-size: 13px;
             margin-bottom: 20px;
         }
-        /* 双链接容器样式 */
         .link-group {
             display: flex;
             gap: 10px;
@@ -92,7 +91,6 @@
             transition: all 0.2s ease;
             border: 1px solid #4299e1;
         }
-        /* 统一蓝色系样式 */
         .mubai-home, .add-qq {
             background-color: #e8f4f8;
             color: #4299e1;
@@ -308,25 +306,29 @@
     <div class="bg-img"></div>
     <div class="bg-mask"></div>
     <div class="card">
-        <h1>Cloudflare 优选 CNAME 域名</h1>
+        <h1>Cloudflare 优选 CNAME 域名发布页</h1>
         <p class="subtitle">高效稳定 · 支持自定义前缀</p>
 
-        <!-- 双蓝色链接容器 -->
         <div class="link-group">
             <a href="https://zhuye.3666888.xyz" class="link-btn mubai-home" target="_blank">慕白主页</a>
             <a href="https://qm.qq.com/q/T8Y19Bhd8O" class="link-btn add-qq" target="_blank">加我QQ</a>
         </div>
         
         <div class="notice">
-            所有优选域名均可自定义前缀，如 *.cf.1d.mom（* 为你的自定义内容）
+            所有优选域名均可自定义前缀，如 *.cf.3666888.xyz（* 为你的自定义内容）
         </div>
 
+        <!-- 调整域名排序：新增域名放第一位，原域名依次后移 -->
         <div class="domain-item">
-            <span class="domain-name">域名1：cf.1d.mom</span>
+            <span class="domain-name">域名1：cf.3666888.xyz</span>
+            <button class="copy-btn" onclick="copyText(this, 'cf.3666888.xyz')">复制</button>
+        </div>
+        <div class="domain-item">
+            <span class="domain-name">域名2：cf.1d.mom</span>
             <button class="copy-btn" onclick="copyText(this, 'cf.1d.mom')">复制</button>
         </div>
         <div class="domain-item">
-            <span class="domain-name">域名2：cf.mubaiovo.top</span>
+            <span class="domain-name">域名3：cf.mubaiovo.top</span>
             <button class="copy-btn" onclick="copyText(this, 'cf.mubaiovo.top')">复制</button>
         </div>
 
@@ -342,7 +344,9 @@
                 <span class="prefix-tag" onclick="fillAndGenerate('static')">static</span>
             </div>
 
+            <!-- 生成器下拉框调整：新增域名设为默认选项新增域名设为默认选项 -->
             <select id="domain-select" class="domain-select">
+                <option value="cf.3666888.xyz" selected>cf.3666888.xyz</option>
                 <option value="cf.1d.mom">cf.1d.mom</option>
                 <option value="cf.mubaiovo.top">cf.mubaiovo.top</option>
             </select>
