@@ -333,13 +333,7 @@
     </style>
 </head>
 <body>
-    <!-- 新增：仅自动播放音乐（无按钮、隐藏音频元素） -->
-    <audio autoplay loop preload="auto" style="display: none;">
-        <source src="https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E7%8E%8B%E8%8F%B2%20-%20%E5%A6%82%E6%84%BF.flac" type="audio/flac">
-        您的浏览器不支持音频播放
-    </audio>
-
-    <!-- 原有代码（未做任何修改） -->
+    <!-- 原有页面内容，无额外音频标签 -->
     <div class="bg-img"></div>
     <div class="bg-mask"></div>
     <div class="card">
@@ -402,6 +396,79 @@
     </div>
 
     <script>
+        // ========== 手机端适配 Web Audio API 核心代码 ==========
+        let audioContext = null;
+        let audioBuffer = null;
+        let sourceNode = null;
+        // 音频地址（FLAC 为主，可自行添加 MP3 备用地址）
+        const audioUrl = 'https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E7%8E%8B%E8%8F%B2%20-%20%E5%A6%82%E6%84%BF.flac';
+
+        // 初始化音频上下文（兼容移动端前缀）
+        function initAudioContext() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        // 加载音频文件
+        function loadAudio() {
+            if (audioBuffer) return; // 避免重复加载
+            fetch(audioUrl)
+                .then(response => response.arrayBuffer())
+                .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+                .then(decodedBuffer => {
+                    audioBuffer = decodedBuffer;
+                })
+                .catch(err => console.log('音频加载失败:', err));
+        }
+
+        // 播放音频（循环）
+        function playAudio() {
+            if (!audioBuffer || !audioContext) return;
+            // 停止之前的播放
+            if (sourceNode) {
+                sourceNode.stop();
+                sourceNode.disconnect();
+            }
+            sourceNode = audioContext.createBufferSource();
+            sourceNode.buffer = audioBuffer;
+            sourceNode.loop = true; // 循环播放
+            sourceNode.connect(audioContext.destination);
+            sourceNode.start(0);
+        }
+
+        // 移动端交互触发：触摸/点击 初始化并播放
+        function handleInteraction() {
+            initAudioContext();
+            loadAudio();
+            // 音频加载完成后自动播放
+            const checkBuffer = setInterval(() => {
+                if (audioBuffer) {
+                    playAudio();
+                    clearInterval(checkBuffer);
+                }
+            }, 100);
+            // 只触发一次
+            document.removeEventListener('touchstart', handleInteraction);
+            document.removeEventListener('click', handleInteraction);
+        }
+
+        // 监听移动端交互事件
+        document.addEventListener('touchstart', handleInteraction, { once: true });
+        document.addEventListener('click', handleInteraction, { once: true });
+
+        // 页面隐藏时暂停音频（省电）
+        document.addEventListener('visibilitychange', () => {
+            if (audioContext) {
+                if (document.hidden) {
+                    audioContext.suspend();
+                } else {
+                    audioContext.resume();
+                }
+            }
+        });
+
+        // ========== 原有脚本功能 ==========
         function copyText(btn, text) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalText = btn.textContent;
