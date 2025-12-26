@@ -101,38 +101,26 @@
             transform: translateY(-1px);
             box-shadow: 0 2px 8px rgba(66, 153, 225, 0.2);
         }
-        /* 自定义音频播放器样式 + 悬浮动效 */
-        .custom-audio-container {
+        /* 播放器容器 + 折叠播放列表 美化 */
+        .audio-section {
             width: 100%;
             margin: 15px 0 25px;
+        }
+        .custom-audio-container {
+            width: 100%;
             padding: 12px 15px;
             background: linear-gradient(135deg, #f0f8fb 0%, #e8f4f8 100%);
             border-radius: 12px;
-            border: 1
             border: 1px solid #e1f0f5;
             box-shadow: 0 2px 10px rgba(66, 153, 225, 0.08);
-            transition: all 0.3s ease; /* 动效过渡 */
-            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 12px;
         }
-        /* 悬浮动效：轻微缩放 + 阴影加深 + 边框变色 */
         .custom-audio-container:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(66, 153, 225, 0.15);
             border-color: #4299e1;
             background: linear-gradient(135deg, #e8f4f8 0%, #f0f8fb 100%);
-        }
-        .custom-audio-container audio {
-            width: 100%;
-            outline: none;
-        }
-        /* 兼容不同浏览器的播放器样式 */
-        .custom-audio-container audio::-webkit-media-controls-panel {
-            background-color: transparent;
-            border: none;
-        }
-        .custom-audio-container audio::-webkit-media-controls-play-button {
-            color: #4299e1;
-            filter: hue-rotate(0deg) brightness(1);
         }
         .audio-title {
             text-align: left;
@@ -142,9 +130,69 @@
             font-weight: 500;
             transition: color 0.2s ease;
         }
-        /* 悬浮时标题变色 */
         .custom-audio-container:hover .audio-title {
             color: #4299e1;
+        }
+        .custom-audio-container audio {
+            width: 100%;
+            outline: none;
+        }
+        /* 折叠开关样式 */
+        .playlist-toggle {
+            width: 100%;
+            padding: 8px 15px;
+            background: rgba(248, 250, 252, 0.9);
+            border: 1px solid #e1f0f5;
+            border-radius: 10px;
+            font-size: 13px;
+            color: #4299e1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .playlist-toggle:hover {
+            background-color: #e8f4f8;
+        }
+        .toggle-arrow {
+            transition: transform 0.2s ease;
+        }
+        .toggle-arrow.active {
+            transform: rotate(180deg);
+        }
+        /* 播放列表样式 - 默认隐藏 */
+        .audio-playlist {
+            width: 100%;
+            background: rgba(248, 250, 252, 0.9);
+            border: 1px solid #e1f0f5;
+            border-top: none;
+            border-radius: 0 0 10px 10px;
+            overflow: hidden;
+            display: none;
+        }
+        .audio-playlist.show {
+            display: block;
+        }
+        .playlist-item {
+            padding: 10px 15px;
+            text-align: left;
+            font-size: 13px;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #f0f8fb;
+        }
+        .playlist-item:last-child {
+            border-bottom: none;
+        }
+        .playlist-item:hover {
+            background-color: #e8f4f8;
+            color: #4299e1;
+        }
+        .playlist-item.active {
+            background-color: #4299e1;
+            color: white;
         }
         .notice {
             background-color: rgba(255, 248, 248, 0.9);
@@ -226,7 +274,7 @@
         .generator-title::before {
             content: '';
             width: 4px;
-            height: 20px;
+            height: 16px;
             background-color: #4299e1;
             border-radius: 2px;
         }
@@ -293,7 +341,6 @@
         }
         .generate-btn {
             width: 100%;
-            padding: 12px;
             background: linear-gradient(90deg, #4299e1, #38b2ac);
             color: #ffffff;
             border: none;
@@ -304,6 +351,7 @@
             margin-bottom: 10px;
             box-shadow: 0 2px 8px rgba(66, 153, 225, 0.2);
             transition: all 0.2s ease;
+            padding: 12px 0;
         }
         .generate-btn:hover {
             transform: translateY(-2px);
@@ -353,7 +401,6 @@
         .friend-link a {
             color: #4299e1;
             text-decoration: none;
-            font-size: 14px;
             transition: color 0.2s ease;
         }
         .friend-link a:hover {
@@ -389,13 +436,23 @@
             <a href="https://qm.qq.com/q/T8Y19Bhd8O" class="link-btn add-qq" target="_blank">加我QQ</a>
         </div>
 
-        <!-- 带悬浮动效的自定义音频播放器 -->
-        <div class="custom-audio-container">
-            <div class="audio-title">王菲 - 如愿</div>
-            <audio controls preload="metadata">
-                <source src="https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E7%8E%8B%E8%8F%B2%20-%20%E5%A6%82%E6%84%BF.flac" type="audio/flac">
-                您的浏览器不支持FLAC音频播放，请升级浏览器
-            
+        <!-- 音频播放区：播放器 + 折叠播放列表 -->
+        <div class="audio-section">
+            <div class="custom-audio-container">
+                <div class="audio-title" id="current-audio-title">王菲 - 如愿</div>
+                <audio id="main-audio" controls preload="metadata">
+                    <source id="audio-source" src="https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E7%8E%8B%E8%8F%B2%20-%20%E5%A6%82%E6%84%BF.flac" type="audio/flac">
+                    您的浏览器不支持FLAC音频播放，请升级浏览器
+                
+            </div>
+            <!-- 新增折叠开关 -->
+            <div class="playlist-toggle" id="playlist-toggle">
+                <span>歌曲列表</span>
+                <span class="toggle-arrow" id="toggle-arrow">▼</span>
+            </div>
+            <div class="audio-playlist" id="audio-playlist">
+                <!-- 播放列表由JS动态生成 -->
+            </div>
         </div>
         
         <div class="notice">
@@ -449,7 +506,66 @@
     </div>
 
     <script>
-        // 仅保留原有页面功能代码
+        // 1. 音频播放列表核心功能
+        const audioList = [
+            { title: "王菲 - 如愿", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E7%8E%8B%E8%8F%B2%20-%20%E5%A6%82%E6%84%BF.flac" },
+            { title: "王菲 - 世界赠予我的", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E7%8E%8B%E8%8F%B2%20-%20%E4%B8%96%E7%95%8C%E8%B5%A0%E4%BA%88%E6%88%91%E7%9A%84.flac" },
+            { title: "早安 - 麒麟 (高燃版)", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E6%97%A9%E5%AE%89%20-%20%E9%BA%92%E9%BA%9F%20(%E9%AB%98%E7%87%83%E7%89%88).flac" },
+            { title: "陶喆 - 爱我还是他", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E9%99%B6%E5%96%86%20-%20%E7%88%B1%E6%88%91%E8%BF%98%E6%98%AF%E4%BB%96.flac" },
+            { title: "黄征、羽泉 - 奔跑", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E9%BB%84%E5%BE%81%E3%80%81%E7%BE%BD%E6%B3%89%20-%20%E5%A5%94%E8%B7%91.flac" }
+        ];
+        const audio = document.getElementById('main-audio');
+        const audioSource = document.getElementById('audio-source');
+        const currentTitle = document.getElementById('current-audio-title');
+        const playlistContainer = document.getElementById('audio-playlist');
+        const playlistToggle = document.getElementById('playlist-toggle');
+        const toggleArrow = document.getElementById('toggle-arrow');
+        let currentIndex = 0;
+
+        // 生成播放列表DOM
+        function renderPlaylist() {
+            playlistContainer.innerHTML = '';
+            audioList.forEach((item, index) => {
+                const playlistItem = document.createElement('div');
+                playlistItem.className = `playlist-item ${index === currentIndex ? 'active' : ''}`;
+                playlistItem.textContent = item.title;
+                playlistItem.onclick = () => playAudio(index);
+                playlistContainer.appendChild(playlistItem);
+            });
+        }
+
+        // 播放指定音频
+        function playAudio(index) {
+            currentIndex = index;
+            const targetAudio = audioList[index];
+            audioSource.src = targetAudio.src;
+            currentTitle.textContent = targetAudio.title;
+            audio.load();
+            audio.play();
+            renderPlaylist(); // 更新选中状态
+        }
+
+        // 折叠/展开切换函数
+        function togglePlaylist() {
+            playlistContainer.classList.toggle('show');
+            toggleArrow.classList.toggle('active');
+        }
+
+        // 刷新页面随机播放一首
+        function randomPlayOnLoad() {
+            currentIndex = Math.floor(Math.random() * audioList.length);
+            playAudio(currentIndex);
+        }
+
+        // 页面加载完成后执行
+        window.onload = () => {
+            renderPlaylist();
+            randomPlayOnLoad();
+            // 绑定折叠开关事件
+            playlistToggle.addEventListener('click', togglePlaylist);
+        };
+
+        // 2. 原有页面功能代码
         function copyText(btn, text) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalText = btn.textContent;
