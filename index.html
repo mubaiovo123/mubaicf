@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <!-- 仅修改搜索引擎标题 -->
     <title>Cloudflare优选域名</title>
-    <!-- 保留原页面默认描述（移除自定义内容，不指定则搜索引擎抓取页面内容生成） -->
     <style>
         * {
             margin: 0;
@@ -190,6 +188,7 @@
         }
         .playlist-item:hover {
             background-color: #e8f4f8;
+            color:8;
             color: #4299e1;
         }
         .playlist-item.active {
@@ -216,32 +215,42 @@
             top: 50%;
             transform: translateY(-50%);
         }
+        /* 优化后的域名项样式 - 统一蓝色 */
+        .domain-group {
+            margin: 15px 0;
+        }
         .domain-item {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: rgba(250, 251, 252, 0.9);
-            padding: 16px 15px;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 18px 15px;
             border-radius: 12px;
             margin: 12px 0;
-            transition: all 0.2s ease;
-            border: 1px solid #f0f2f5;
-            flex-wrap: wrap;
-            gap: 10px;
+            transition: all 0.3s ease;
+            border: 1px solid #e1f0f5;
+            background-color: rgba(240, 248, 251, 0.9);
         }
         .domain-item:hover {
-            background-color: rgba(240, 248, 251, 0.95);
+            background-color: rgba(66, 153, 225, 0.1);
             border-color: #4299e1;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(66, 153, 225, 0.1);
         }
+        .domain-item:hover .domain-desc {
+            color: #4299e1;
+        }
+        .domain-desc {
+            color: #718096;
+            font-size: 12px;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
         .domain-name {
             color: #2d3748;
             font-size: 15px;
-            font-weight: 500;
-            flex: 1;
-            min-width: 0;
-            text-align: left;
+            font-weight: 600;
+            margin-bottom: 10px;
+            word-break: break-all;
         }
         .copy-btn {
             background: linear-gradient(90deg, #4299e1, #38b2ac);
@@ -253,6 +262,7 @@
             font-size: 14px;
             font-weight: 500;
             transition: all 0.2s ease;
+            align-self: flex-end;
             min-width: 70px;
             box-shadow: 0 2px 8px rgba(66, 153, 225, 0.2);
         }
@@ -409,12 +419,6 @@
             color: #3182ce;
             text-decoration: underline;
         }
-        .tech-support {
-            margin-top: 10px;
-            margin-bottom: 20px;
-            color: #6e7c91;
-            font-size: 13px;
-        }
         .tech-support a {
             color: #4299e1;
             text-decoration: none;
@@ -444,10 +448,9 @@
             <div class="custom-audio-container">
                 <div class="audio-title" id="current-audio-title">王菲 - 如愿</div>
                 <audio id="main-audio" controls preload="metadata">
-                    <source id="audio-source" src="https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E7%8E%8B%E8%8F%B2%20-%20%E5%A6%82%E6%84%BF.flac" type="audio/flac">
-                    您的浏览器不支持FLAC音频播放，请升级浏览器
-                
-            </div>
+                    <source id="audio-source" src="https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E7%8E%8B%E8%8F%B2%20-%20%E5%A6%82%E6%84%BF.flac">
+                    您的浏览器不支持音频播放
+                </div>
             <!-- 新增折叠开关 -->
             <div class="playlist-toggle" id="playlist-toggle">
                 <span>歌曲列表</span>
@@ -462,17 +465,18 @@
             所有优选域名均可自定义前缀，如 *.cf.3666888.xyz（* 为你的自定义内容）
         </div>
 
-        <div class="domain-item">
-            <span class="domain-name">域名1：cf.3666888.xyz</span>
-            <button class="copy-btn" onclick="copyText(this, 'cf.3666888.xyz')">复制</button>
-        </div>
-        <div class="domain-item">
-            <span class="domain-name">域名2：cf.1d.mom</span>
-            <button class="copy-btn" onclick="copyText(this, 'cf.1d.mom')">复制</button>
-        </div>
-        <div class="domain-item">
-            <span class="domain-name">域名3：cf.mubaiovo.top</span>
-            <button class="copy-btn" onclick="copyText(this, 'cf.mubaiovo.top')">复制</button>
+        <!-- 优化后的域名展示 - 统一蓝色样式 -->
+        <div class="domain-group">
+            <div class="domain-item">
+                <span class="domain-desc">Cloudflare 网站加速</span>
+                <span class="domain-name">cf.3666888.xyz</span>
+                <button class="copy-btn" onclick="copyText(this, 'cf.3666888.xyz')">复制</button>
+            </div>
+            <div class="domain-item">
+                <span class="domain-desc">Cloudflare 下载加速</span>
+                <span class="domain-name">cfdl.3666888.xyz</span>
+                <button class="copy-btn" onclick="copyText(this, 'cfdl.3666888.xyz')">复制</button>
+            </div>
         </div>
 
         <h2 class="generator-title">自定义前缀CNAME域名生成器</h2>
@@ -488,9 +492,8 @@
             </div>
 
             <select id="domain-select" class="domain-select">
-                <option value="cf.3666888.xyz" selected>cf.3666888.xyz</option>
-                <option value="cf.1d.mom">cf.1d.mom</option>
-                <option value="cf.mubaiovo.top">cf.mubaiovo.top</option>
+                <option value="cf.3666888.xyz" selected>cf.3666888.xyz（网站加速）</option>
+                <option value="cfdl.3666888.xyz">cfdl.3666888.xyz（下载加速）</option>
             </select>
             <button class="generate-btn" onclick="generateDomain()">生成完整 CNAME 域名</button>
             <div id="tip-text"></div>
@@ -509,13 +512,15 @@
     </div>
 
     <script>
-        // 1. 音频播放列表核心功能
+        // 1. 音频播放列表核心功能 - 修正别回头音频链接
         const audioList = [
             { title: "王菲 - 如愿", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E7%8E%8B%E8%8F%B2%20-%20%E5%A6%82%E6%84%BF.flac" },
             { title: "王菲 - 世界赠予我的", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E7%8E%8B%E8%8F%B2%20-%20%E4%B8%96%E7%95%8C%E8%B5%A0%E4%BA%88%E6%88%91%E7%9A%84.flac" },
             { title: "早安 - 麒麟 (高燃版)", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E6%97%A9%E5%AE%89%20-%20%E9%BA%92%E9%BA%9F%20(%E9%AB%98%E7%87%83%E7%89%88).flac" },
             { title: "陶喆 - 爱我还是他", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E9%99%B6%E5%96%86%20-%20%E7%88%B1%E6%88%91%E8%BF%98%E6%98%AF%E4%BB%96.flac" },
-            { title: "黄征、羽泉 - 奔跑", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E9%BB%84%E5%BE%81%E3%80%81%E7%BE%BD%E6%B3%89%20-%20%E5%A5%94%E8%B7%91.flac" }
+            { title: "黄征、羽泉 - 奔跑", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E9%BB%84%E5%BE%81%E3%80%81%E7%BE%BD%E6%B3%89%20-%20%E5%A5%94%E8%B7%91.flac" },
+            // 修正后的正确链接 + MIME类型声明
+            { title: "PAMajor - 别回头 (别回头别停留往前走)", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/PAMajor%20-%20%E5%88%AB%E5%9B%9E%E5%A4%B4%20(%E5%88%AB%E5%9B%9E%E5%A4%B4%E5%88%AB%E5%81%9C%E7%95%99%E5%BE%80%E5%89%8D%E8%B5%B0).flac", type: "audio/flac" }
         ];
         const audio = document.getElementById('main-audio');
         const audioSource = document.getElementById('audio-source');
@@ -537,15 +542,23 @@
             });
         }
 
-        // 播放指定音频
+        // 播放逻辑 - 保留兼容性优化
         function playAudio(index) {
             currentIndex = index;
             const targetAudio = audioList[index];
             audioSource.src = targetAudio.src;
+            audioSource.type = targetAudio.type || 'audio/flac';
             currentTitle.textContent = targetAudio.title;
             audio.load();
-            audio.play();
-            renderPlaylist(); // 更新选中状态
+            try {
+                audio.play().catch(err => {
+                    console.log('需用户交互后播放：', err);
+                    currentTitle.textContent += '（请点击播放按钮）';
+                });
+            } catch (e) {
+                console.error('播放失败：', e);
+            }
+            renderPlaylist();
         }
 
         // 折叠/展开切换函数
@@ -564,7 +577,6 @@
         window.onload = () => {
             renderPlaylist();
             randomPlayOnLoad();
-            // 绑定折叠开关事件
             playlistToggle.addEventListener('click', togglePlaylist);
         };
 
@@ -610,7 +622,6 @@
         function fillAndGenerate(prefix) {
             const prefixInput = document.getElementById('prefix-input');
             prefixInput.value = prefix;
-            checkPrefix();
             generateDomain();
         }
 
