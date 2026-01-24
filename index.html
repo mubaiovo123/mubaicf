@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cloudflare优选域名</title>
+    <title>胡桃优选</title>
     <style>
         * {
             margin: 0;
@@ -63,6 +63,21 @@
             height: 4px;
             background: linear-gradient(90deg, #4299e1, #38b2ac);
             border-radius: 18px 18px 0 0;
+        }
+        /* 放大头像样式 - 调整为120px */
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            overflow: hidden;
+            border: 3px solid #e8f4f8;
+            box-shadow: 0 3px 10px rgba(66, 153, 225, 0.15);
+        }
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         h1 {
             background: linear-gradient(90deg, #2d3748, #4299e1);
@@ -188,7 +203,6 @@
         }
         .playlist-item:hover {
             background-color: #e8f4f8;
-            color:8;
             color: #4299e1;
         }
         .playlist-item.active {
@@ -434,13 +448,17 @@
     <div class="bg-img"></div>
     <div class="bg-mask"></div>
     <div class="card">
-        <h1>Cloudflare 优选 CNAME 域名发布页</h1>
+        <!-- 圆形头像 -->
+        <div class="avatar">
+            <img src="https://pan.3666888.xyz/raw/app图片资源/1000035417.jpg" alt="头像">
+        </div>
+        <h1>胡桃优选</h1>
         <p class="subtitle">高效稳定 · 支持自定义前缀</p>
 
         <div class="link-group">
-            <a href="https://zhuye.3666888.xyz" class="link-btn mubai-home" target="_blank">慕白主页</a>
+            <a href="https://zhuye.3666888.xyz" class="link-btn mubai-home" target="_blank">胡桃主页</a>
             <a href="https://privacy.1d.mom" class="link-btn privacy-policy" target="_blank">隐私政策</a>
-            <a href="https://qm.qq.com/q/T8Y19Bhd8O" class="link-btn add-qq" target="_blank">加我QQ</a>
+            <a href="https://t.me/hutaocfyx" class="link-btn add-qq" target="_blank">TG频道</a>
         </div>
 
         <!-- 音频播放区：播放器 + 折叠播放列表 -->
@@ -450,7 +468,8 @@
                 <audio id="main-audio" controls preload="metadata">
                     <source id="audio-source" src="https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E7%8E%8B%E8%8F%B2%20-%20%E5%A6%82%E6%84%BF.flac">
                     您的浏览器不支持音频播放
-                </div>
+                </audio>
+            </div>
             <!-- 新增折叠开关 -->
             <div class="playlist-toggle" id="playlist-toggle">
                 <span>歌曲列表</span>
@@ -460,29 +479,28 @@
                 <!-- 播放列表由JS动态生成 -->
             </div>
         </div>
-        
+
         <div class="notice">
             所有优选域名均可自定义前缀，如 *.cf.3666888.xyz（* 为你的自定义内容）
         </div>
 
-        <!-- 优化后的域名展示 - 统一蓝色样式 -->
+        <!-- 优化后的域名项样式 - 统一蓝色 -->
         <div class="domain-group">
             <div class="domain-item">
                 <span class="domain-desc">Cloudflare 网站加速</span>
                 <span class="domain-name">cf.3666888.xyz</span>
-                <button class="copy-btn" onclick="copyText(this, 'cf.3666888.xyz')">复制</button>
+                <button class="copy-btn" onclick="copyText(this, 'cf.3666888.xyz')">Copy</button>
             </div>
             <div class="domain-item">
                 <span class="domain-desc">Cloudflare 下载加速</span>
                 <span class="domain-name">cfdl.3666888.xyz</span>
-                <button class="copy-btn" onclick="copyText(this, 'cfdl.3666888.xyz')">复制</button>
+                <button class="copy-btn" onclick="copyText(this, 'cfdl.3666888.xyz')">Copy</button>
             </div>
         </div>
 
         <h2 class="generator-title">自定义前缀CNAME域名生成器</h2>
         <div class="prefix-generator">
             <input type="text" id="prefix-input" class="prefix-input" placeholder="输入自定义前缀（如cdn）" oninput="checkPrefix()">
-            
             <div class="prefix-tags">
                 <span class="prefix-tag" onclick="fillAndGenerate('cdn')">cdn</span>
                 <span class="prefix-tag" onclick="fillAndGenerate('www')">www</span>
@@ -497,7 +515,6 @@
             </select>
             <button class="generate-btn" onclick="generateDomain()">生成完整 CNAME 域名</button>
             <div id="tip-text"></div>
-            
             <div class="result-box" id="result-domain" style="display: none;"></div>
             <button class="copy-btn result-copy-btn" onclick="copyResult()" style="display: none;">复制生成的域名</button>
         </div>
@@ -519,7 +536,6 @@
             { title: "早安 - 麒麟 (高燃版)", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E6%97%A9%E5%AE%89%20-%20%E9%BA%92%E9%BA%9F%20(%E9%AB%98%E7%87%83%E7%89%88).flac" },
             { title: "陶喆 - 爱我还是他", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E9%99%B6%E5%96%86%20-%20%E7%88%B1%E6%88%91%E8%BF%98%E6%98%AF%E4%BB%96.flac" },
             { title: "黄征、羽泉 - 奔跑", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E9%BB%84%E5%BE%81%E3%80%81%E7%BE%BD%E6%B3%89%20-%20%E5%A5%94%E8%B7%91.flac" },
-            // 修正后的正确链接 + MIME类型声明
             { title: "PAMajor - 别回头 (别回头别停留往前走)", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/PAMajor%20-%20%E5%88%AB%E5%9B%9E%E5%A4%B4%20(%E5%88%AB%E5%9B%9E%E5%A4%B4%E5%88%AB%E5%81%9C%E7%95%99%E5%BE%80%E5%89%8D%E8%B5%B0).flac", type: "audio/flac" }
         ];
         const audio = document.getElementById('main-audio');
@@ -584,7 +600,7 @@
         function copyText(btn, text) {
             navigator.clipboard.writeText(text).then(() => {
                 const originalText = btn.textContent;
-                btn.textContent = "已复制";
+                btn.textContent = "Copied";
                 btn.classList.add('success');
                 setTimeout(() => {
                     btn.textContent = originalText;
@@ -657,7 +673,16 @@
                 return;
             }
             const btn = document.querySelector('.result-copy-btn');
-            copyText(btn, resultText);
+            btn.textContent = "已复制";
+            btn.classList.add('success');
+            setTimeout(() => {
+                btn.textContent = "复制生成的域名";
+                btn.classList.remove('success');
+            }, 1500);
+            navigator.clipboard.writeText(resultText).catch(err => {
+                alert("复制失败，请手动复制");
+                console.error('复制失败: ', err);
+            });
         }
     </script>
 </body>
