@@ -64,7 +64,6 @@
             background: linear-gradient(90deg, #4299e1, #38b2ac);
             border-radius: 18px 18px 0 0;
         }
-        /* 放大头像样式 - 调整为120px */
         .avatar {
             width: 120px;
             height: 120px;
@@ -116,7 +115,6 @@
             transform: translateY(-1px);
             box-shadow: 0 2px 8px rgba(66, 153, 225, 0.2);
         }
-        /* 播放器容器 + 折叠播放列表 美化 */
         .audio-section {
             width: 100%;
             margin: 15px 0 25px;
@@ -152,7 +150,6 @@
             width: 100%;
             outline: none;
         }
-        /* 折叠开关样式 */
         .playlist-toggle {
             width: 100%;
             padding: 8px 15px;
@@ -176,7 +173,6 @@
         .toggle-arrow.active {
             transform: rotate(180deg);
         }
-        /* 播放列表样式 - 默认隐藏 */
         .audio-playlist {
             width: 100%;
             background: rgba(248, 250, 252, 0.9);
@@ -229,7 +225,6 @@
             top: 50%;
             transform: translateY(-50%);
         }
-        /* 优化后的域名项样式 - 统一蓝色 */
         .domain-group {
             margin: 15px 0;
         }
@@ -420,18 +415,28 @@
             font-size: 13px;
             margin-bottom: 15px;
         }
-        .friend-link {
-            margin-top: 10px;
-            margin-bottom: 15px;
+        /* 新增合作伙伴样式：图片居中排列，间距适配 */
+        .partner-group {
+            margin: 10px 0 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
         }
-        .friend-link a {
-            color: #4299e1;
-            text-decoration: none;
-            transition: color 0.2s ease;
+        .partner-img {
+            height: 40px;
+            object-fit: contain;
+            transition: transform 0.2s ease;
+            cursor: pointer;
         }
-        .friend-link a:hover {
-            color: #3182ce;
-            text-decoration: underline;
+        .partner-img:hover {
+            transform: scale(1.1); /* hover放大效果，增强交互 */
+        }
+        .partner-title {
+            color: #2d3748;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
         .tech-support a {
             color: #4299e1;
@@ -520,9 +525,18 @@
         </div>
 
         <div class="footer-text">选择您想要的域名复制使用即可</div>
-        <div class="friend-link">
-            <a href="https://www.byoip.top/" target="_blank">友情链接：NB优选</a>
+        
+        <!-- 替换为合作伙伴：图片形式 + 两个合作方 -->
+        <div class="partner-title">合作伙伴</div>
+        <div class="partner-group">
+            <a href="https://www.byoip.top/" target="_blank">
+                <img src="https://www.byoip.top/favicon.ico" alt="NB优选" class="partner-img">
+            </a>
+            <a href="https://t.me/Cloudbays_Wayne_Channel" target="_blank">
+                <img src="https://www.cloudbays.com/home/img/logo.png" alt="云湾" class="partner-img">
+            </a>
         </div>
+
         <div class="tech-support">
             DNS分线路解析由<a href="https://imbee.top/" target="_blank">蜜蜂QWQ</a>提供技术支持
         </div>
