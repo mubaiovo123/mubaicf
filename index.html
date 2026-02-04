@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>胡桃优选</title>
+    <!-- 核心：主站SEO收录优化，仅针对主站设置 -->
+    <meta name="robots" content="index,follow">
+    <meta name="description" content="胡桃优选 - 高效稳定的自定义前缀CNAME域名生成工具，支持Cloudflare加速域名解析">
+    <meta name="keywords" content="CNAME生成,自定义前缀,Cloudflare加速,域名解析">
     <style>
         * {
             margin: 0;
@@ -20,6 +24,7 @@
             padding-top: 30px;
             position: relative;
             background-color: #f5f7fa;
+            overflow: hidden; /* 初始锁定滚动 */
         }
         .bg-img {
             position: fixed;
@@ -53,6 +58,7 @@
             text-align: center;
             position: relative;
             backdrop-filter: blur(4px);
+            z-index: 1; /* 低于弹窗，不影响主站内容抓取 */
         }
         .card::before {
             content: '';
@@ -415,7 +421,6 @@
             font-size: 13px;
             margin-bottom: 15px;
         }
-        /* 新增合作伙伴样式：图片居中排列，间距适配 */
         .partner-group {
             margin: 10px 0 15px;
             display: flex;
@@ -430,7 +435,7 @@
             cursor: pointer;
         }
         .partner-img:hover {
-            transform: scale(1.1); /* hover放大效果，增强交互 */
+            transform: scale(1.1);
         }
         .partner-title {
             color: #2d3748;
@@ -447,21 +452,616 @@
             color: #3182ce;
             text-decoration: underline;
         }
+        /* 隐私协议弹窗 - 仅做前端视觉效果，不影响主站SEO */
+        #privacyModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            transition: all 0.3s ease;
+            /* 关键：搜索引擎不会渲染固定定位的弹窗，不影响主站内容抓取 */
+        }
+        .privacy-modal-box {
+            width: 100%;
+            max-width: 750px;
+            max-height: 90vh;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+        .priv最终版代码（保障主站SEO收录+5秒倒计时+确认前模糊）
+已调整优化策略，**重点保障主站内容被搜索引擎正常收录**，隐私页收录不做额外处理，同时保留5秒倒计时可点击、确认前隐私内容高斯模糊的功能，直接替换即可使用：
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>胡桃优选</title>
+    <!-- 核心：主站SEO收录优化，仅针对主站设置 -->
+    <meta name="robots" content="index,follow">
+    <meta name="description" content="胡桃优选 - 高效稳定的自定义前缀CNAME域名生成工具，支持Cloudflare加速域名解析">
+    <meta name="keywords" content="CNAME生成,自定义前缀,Cloudflare加速,域名解析">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'PingFang SC', 'Helvetica Neue', sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            padding: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 30px;
+            position: relative;
+            background-color: #f5f7fa;
+            overflow: hidden; /* 初始锁定滚动 */
+        }
+        .bg-img {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://pan.3666888.xyz/raw/app图片资源/1766672138019.png') no-repeat center center;
+            background-size: cover;
+            opacity: 0.9;
+            z-index: -2;
+            pointer-events: none;
+        }
+        .bg-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.2);
+            z-index: -1;
+            pointer-events: none;
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.85);
+            width: 100%;
+            max-width: 400px;
+            padding: 30px 20px;
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            position: relative;
+            backdrop-filter: blur(4px);
+            z-index: 1; /* 低于弹窗，不影响主站内容抓取 */
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4299e1, #38b2ac);
+            border-radius: 18px 18px 0 0;
+        }
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            overflow: hidden;
+            border: 3px solid #e8f4f8;
+            box-shadow: 0 3px 10px rgba(66, 153, 225, 0.15);
+        }
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        h1 {
+            background: linear-gradient(90deg, #2d3748, #4299e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 22px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .subtitle {
+            color: #9aa5b1;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+        .link-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .link-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid #4299e1;
+        }
+        .mubai-home, .privacy-policy, .add-qq {
+            background-color: #e8f4f8;
+            color: #4299e1;
+        }
+        .mubai-home:hover, .privacy-policy:hover, .add-qq:hover {
+            background-color: #4299e1;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(66, 153, 225, 0.2);
+        }
+        .audio-section {
+            width: 100%;
+            margin: 15px 0 25px;
+        }
+        .custom-audio-container {
+            width: 100%;
+            padding: 12px 15px;
+            background: linear-gradient(135deg, #f0f8fb 0%, #e8f4f8 100%);
+            border-radius: 12px;
+            border: 1px solid #e1f0f5;
+            box-shadow: 0 2px 10px rgba(66, 153, 225, 0.08);
+            transition: all 0.3s ease;
+            margin-bottom: 12px;
+        }
+        .custom-audio-container:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(66, 153, 225, 0.15);
+            border-color: #4299e1;
+            background: linear-gradient(135deg, #e8f4f8 0%, #f0f8fb 100%);
+        }
+        .audio-title {
+            text-align: left;
+            font-size: 14px;
+            color: #2d3748;
+            margin-bottom: 8px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        .custom-audio-container:hover .audio-title {
+            color: #4299e1;
+        }
+        .custom-audio-container audio {
+            width: 100%;
+            outline: none;
+        }
+        .playlist-toggle {
+            width: 100%;
+            padding: 8px 15px;
+            background: rgba(248, 250, 252, 0.9);
+            border: 1px solid #e1f0f5;
+            border-radius: 10px;
+            font-size: 13px;
+            color: #4299e1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .playlist-toggle:hover {
+            background-color: #e8f4f8;
+        }
+        .toggle-arrow {
+            transition: transform 0.2s ease;
+        }
+        .toggle-arrow.active {
+            transform: rotate(180deg);
+        }
+        .audio-playlist {
+            width: 100%;
+            background: rgba(248, 250, 252, 0.9);
+            border: 1px solid #e1f0f5;
+            border-top: none;
+            border-radius: 0 0 10px 10px;
+            overflow: hidden;
+            display: none;
+        }
+        .audio-playlist.show {
+            display: block;
+        }
+        .playlist-item {
+            padding: 10px 15px;
+            text-align: left;
+            font-size: 13px;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #f0f8fb;
+        }
+        .playlist-item:last-child {
+            border-bottom: none;
+        }
+        .playlist-item:hover {
+            background-color: #e8f4f8;
+            color: #4299e1;
+        }
+        .playlist-item.active {
+            background-color: #4299e1;
+            color: white;
+        }
+        .notice {
+            background-color: rgba(255, 248, 248, 0.9);
+            color: #e53e3e;
+            padding: 15px 12px;
+            border-radius: 12px;
+            margin: 20px 0;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 1.5;
+            border: 1px solid #ffecec;
+            position: relative;
+            padding-left: 30px;
+        }
+        .notice::before {
+            content: '💡';
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .domain-group {
+            margin: 15px 0;
+        }
+        .domain-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 18px 15px;
+            border-radius: 12px;
+            margin: 12px 0;
+            transition: all 0.3s ease;
+            border: 1px solid #e1f0f5;
+            background-color: rgba(240, 248, 251, 0.9);
+        }
+        .domain-item:hover {
+            background-color: rgba(66, 153, 225, 0.1);
+            border-color: #4299e1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.1);
+        }
+        .domain-item:hover .domain-desc {
+            color: #4299e1;
+        }
+        .domain-desc {
+            color: #718096;
+            font-size: 12px;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        .domain-name {
+            color: #2d3748;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            word-break: break-all;
+        }
+        .copy-btn {
+            background: linear-gradient(90deg, #4299e1, #38b2ac);
+            color: white;
+            border: none;
+            padding: 9px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            align-self: flex-end;
+            min-width: 70px;
+            box-shadow: 0 2px 8px rgba(66, 153, 225, 0.2);
+        }
+        .copy-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+        }
+        .copy-btn.success {
+            background: linear-gradient(90deg, #38a169, #38b2ac);
+        }
+        .generator-title {
+            color: #2d3748;
+            font-size: 17px;
+            font-weight: 600;
+            margin: 30px 0 15px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .generator-title::before {
+            content: '';
+            width: 4px;
+            height: 16px;
+            background-color: #4299e1;
+            border-radius: 2px;
+        }
+        .prefix-generator {
+            background-color: rgba(240, 248, 251, 0.9);
+            padding: 20px 15px;
+            border-radius: 12px;
+            border: 1px solid #e8f4f8;
+        }
+        .prefix-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            margin-bottom: 12px;
+            transition: border-color 0.2s;
+        }
+        .prefix-input:focus {
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+        }
+        .prefix-input.valid {
+            border-color: #38a169;
+        }
+        .prefix-input.invalid {
+            border-color: #e53e3e;
+        }
+        .prefix-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .prefix-tag {
+            padding: 6px 12px;
+            background-color: #e8f4f8;
+            color: #4299e1;
+            border: 1px solid #4299e1;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .prefix-tag:hover {
+            background-color: #4299e1;
+            color: white;
+            transform: translateY(-1px);
+        }
+        .domain-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 12px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .domain-select:focus {
+            border-color: #4299e1;
+            box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+        }
+        .generate-btn {
+            width: 100%;
+            background: linear-gradient(90deg, #4299e1, #38b2ac);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(66, 153, 225, 0.2);
+            transition: all 0.2s ease;
+            padding: 12px 0;
+        }
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.3);
+        }
+        #tip-text {
+            text-align: left;
+            font-size: 12px;
+            color: #e53e3e;
+            margin-bottom: 15px;
+        }
+        .result-box {
+            width: 100%;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+        .result-box:hover {
+            border-color: #4299e1;
+            box-shadow: 0 2px 8px rgba(66, 153, 225, 0.1);
+        }
+        #result-domain {
+            color: #2d3748;
+            font-size: 15px;
+            font-weight: 500;
+            word-break: break-all;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .result-copy-btn {
+            width: 100%;
+        }
+        .footer-text {
+            margin-top: 30px;
+            color: #6e7c91;
+            font-size: 13px;
+            margin-bottom: 15px;
+        }
+        .partner-group {
+            margin: 10px 0 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+        .partner-img {
+            height: 40px;
+            object-fit: contain;
+            transition: transform 0.2s ease;
+            cursor: pointer;
+        }
+        .partner-img:hover {
+            transform: scale(1.1);
+        }
+        .partner-title {
+            color: #2d3748;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .tech-support a {
+            color: #4299e1;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .tech-support a:hover {
+            color: #3182ce;
+            text-decoration: underline;
+        }
+        /* 隐私协议弹窗 - 仅做前端视觉效果，不影响主站SEO */
+        #privacyModal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            transition: all 0.3s ease;
+            /* 关键：搜索引擎不会渲染固定定位的弹窗，不影响主站内容抓取 */
+        }
+        .privacy-modal-box {
+            width: 100%;
+            max-width: 750px;
+            max-height: 90vh;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+        .privacy-modal-header {
+            padding: 14px 20px;
+            background: linear-gradient(90deg, #4299e1, #38b2ac);
+            color: #fff;
+            font-size: 17px;
+            font-weight: 600;
+            text-align: center;
+        }
+        .privacy-modal-content {
+            width: 100%;
+            height: calc(90vh - 120px);
+            max-height: 500px;
+            overflow-y: auto;
+            position: relative;
+            background: #f9fafb;
+        }
+        /* 核心：确认前模糊，仅前端视觉，不影响主站 */
+        .privacy-blur-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            filter: blur(10px); /* 加深模糊，体验更好 */
+            transition: filter 0.3s ease, opacity 0.3s ease;
+        }
+        .privacy-blur-layer.hidden {
+            filter: blur(0);
+            opacity: 0;
+        }
+        /* 隐私页iframe：不做任何SEO配置，随其自然 */
+        .privacy-modal-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            position: relative;
+            z-index: 1;
+            min-height: 400px;
+        }
+        .privacy-modal-footer {
+            padding: 15px 20px;
+            text-align: center;
+            border-top: 1px solid #eef2f5;
+            background: #fff;
+        }
+        /* 5秒倒计时按钮：禁用/可用状态 */
+        #privacyConfirmBtn {
+            padding: 12px 45px;
+            background: linear-gradient(90deg, #4299e1, #38b2ac);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: not-allowed;
+            transition: all 0.2s ease;
+            outline: none;
+            user-select: none;
+            opacity: 0.6;
+        }
+        #privacyConfirmBtn.available {
+            cursor: pointer;
+            opacity: 1;
+        }
+        #privacyConfirmBtn.available:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(66,153,225,0.3);
+        }
+        #privacyConfirmBtn.available:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(66,153,225,0.2);
+        }
     </style>
-    <!-- 标签页图标代码 -->
+    <!-- 主站标签页图标，强化主站识别 -->
     <link rel="icon" href="https://pan.3666888.xyz/raw/app图片资源/1000035690.png" type="image/png" sizes="32x32">
     <link rel="icon" href="https://pan.3666888.xyz/raw/app图片资源/1000035690.png" type="image/png" sizes="16x16">
 </head>
 <body>
+    <!-- 隐私弹窗：固定定位，搜索引擎忽略，不影响主站内容 -->
+    <div id="privacyModal">
+        <div class="privacy-modal-box">
+            <div class="privacy-modal-header">免责条款与隐私协议</div>
+            <div class="privacy-modal-content">
+                <div class="privacy-blur-layer" id="privacyBlurLayer"></div>
+                <iframe class="privacy-modal-iframe" src="https://privacy.1d.mom/" frameborder="0" sandbox="allow-same-origin allow-scripts"></iframe>
+            </div>
+            <div class="privacy-modal-footer">
+                <button id="privacyConfirmBtn">我确认此条款 (5)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主站核心内容：搜索引擎正常抓取、收录 -->
     <div class="bg-img"></div>
     <div class="bg-mask"></div>
     <div class="card">
-        <!-- 圆形头像 -->
         <div class="avatar">
-            <img src="https://pan.3666888.xyz/raw/app图片资源/1000035417.jpg" alt="头像">
+            <img src="https://pan.3666888.xyz/raw/app图片资源/1000035417.jpg" alt="胡桃优选头像">
         </div>
         <h1>胡桃优选</h1>
-        <p class="subtitle">高效稳定 · 支持自定义前缀</p>
+        <p class="subtitle">高效稳定 · 自定义前缀CNAME域名生成工具</p>
 
         <div class="link-group">
             <a href="https://me.1d.mom" class="link-btn mubai-home" target="_blank">胡桃主页</a>
@@ -469,30 +1069,25 @@
             <a href="https://t.me/hutaocfyx" class="link-btn add-qq" target="_blank">TG频道</a>
         </div>
 
-        <!-- 音频播放区：播放器 + 折叠播放列表 -->
         <div class="audio-section">
             <div class="custom-audio-container">
                 <div class="audio-title" id="current-audio-title">王菲 - 如愿</div>
                 <audio id="main-audio" controls preload="metadata">
-                    <source id="audio-source" src="https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E7%8E%8B%E8%8F%B2%20-%20%E5%A6%82%E6%84%BF.flac">
-                    您的浏览器不支持音频播放
+                    <source id="audio-source" src="https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E7%8E%8B%E8%8F%B2%20-%20%E5%A6%82%E6%84%BF.flac" type="audio/flac">
+                    您的浏览器不支持音频播放功能
                 
             </div>
-            <!-- 新增折叠开关 -->
             <div class="playlist-toggle" id="playlist-toggle">
                 <span>歌曲列表</span>
                 <span class="toggle-arrow" id="toggle-arrow">▼</span>
             </div>
-            <div class="audio-playlist" id="audio-playlist">
-                <!-- 播放列表由JS动态生成 -->
-            </div>
+            <div class="audio-playlist" id="audio-playlist"></div>
         </div>
 
         <div class="notice">
             所有优选域名均可自定义前缀，如 *.cf.3666888.xyz（* 为你的自定义内容）
         </div>
 
-        <!-- 优化后的域名项样式 - 统一蓝色 -->
         <div class="domain-group">
             <div class="domain-item">
                 <span class="domain-desc">Cloudflare 网站加速</span>
@@ -508,7 +1103,7 @@
 
         <h2 class="generator-title">自定义前缀CNAME域名生成器</h2>
         <div class="prefix-generator">
-            <input type="text" id="prefix-input" class="prefix-input" placeholder="输入自定义前缀（如cdn）" oninput="checkPrefix()">
+            <input type="text" id="prefix-input" class="prefix-input" placeholder="输入自定义前缀（如cdn、www）" oninput="checkPrefix()">
             <div class="prefix-tags">
                 <span class="prefix-tag" onclick="fillAndGenerate('cdn')">cdn</span>
                 <span class="prefix-tag" onclick="fillAndGenerate('www')">www</span>
@@ -529,7 +1124,6 @@
 
         <div class="footer-text">选择您想要的域名复制使用即可</div>
         
-        <!-- 替换为合作伙伴：图片形式 + 两个合作方 -->
         <div class="partner-title">合作伙伴</div>
         <div class="partner-group">
             <a href="https://www.byoip.top/" target="_blank">
@@ -540,11 +1134,8 @@
             </a>
         </div>
 
-        <!-- 新增ICP备案信息 -->
         <div class="tech-support" style="margin-bottom: 15px;">
-            <a href="https://icp.gov.moe/?keyword=20262520" target="_blank" style="color: #4299e1; text-decoration: none;">
-                萌ICP备20262520号
-            </a>
+            <a href="https://icp.gov.moe/?keyword=20262520" target="_blank">萌ICP备20262520号</a>
         </div>
 
         <div class="tech-support">
@@ -553,160 +1144,154 @@
     </div>
 
     <script>
-        // 1. 音频播放列表核心功能 - 修正别回头音频链接
+        // 核心：5秒倒计时+模糊层控制，仅前端交互，不影响主站
+        (function() {
+            const modal = document.getElementById('privacyModal');
+            const btn = document.getElementById('privacyConfirmBtn');
+            const blurLayer = document.getElementById('privacyBlurLayer');
+            let count = 5;
+            const timer = setInterval(() => {
+                count--;
+                btn.innerText = `我确认此条款 (${count})`;
+                if (count <= 0) {
+                    clearInterval(timer);
+                    btn.innerText = '我确认此条款';
+                    btn.classList.add('available');
+                }
+            }, 1000);
+
+            btn.onclick = function() {
+                if (!this.classList.contains('available')) return;
+                blurLayer.classList.add('hidden');
+                modal.style.opacity = 0;
+                modal.style.pointerEvents = 'none';
+                setTimeout(() => modal.style.display = 'none', 300);
+                document.body.style.overflow = 'auto'; // 解锁主站滚动
+            };
+        })();
+
+        // 音频播放功能（主站交互，不影响收录）
         const audioList = [
-            { title: "王菲 - 如愿", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E7%8E%8B%E8%8F%B2%20-%20%E5%A6%82%E6%84%BF.flac" },
-            { title: "王菲 - 世界赠予我的", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E7%8E%8B%E8%8F%B2%20-%20%E4%B8%96%E7%95%8C%E8%B5%A0%E4%BA%88%E6%88%91%E7%9A%84.flac" },
-            { title: "早安 - 麒麟 (高燃版)", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E6%97%A9%E5%AE%89%20-%20%E9%BA%92%E9%BA%9F%20(%E9%AB%98%E7%87%83%E7%89%88).flac" },
-            { title: "陶喆 - 爱我还是他", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E9%99%B6%E5%96%86%20-%20%E7%88%B1%E6%88%91%E8%BF%98%E6%98%AF%E4%BB%96.flac" },
-            { title: "黄征、羽泉 - 奔跑", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E9%BB%84%E5%BE%81%E3%80%81%E7%BE%BD%E6%B3%89%20-%20%E5%A5%94%E8%B7%91.flac" },
-            { title: "PAMajor - 别回头 (别回头别停留往前走)", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/PAMajor%20-%20%E5%88%AB%E5%9B%9E%E5%A4%B4%20(%E5%88%AB%E5%9B%9E%E5%A4%B4%E5%88%AB%E5%81%9C%E7%95%99%E5%BE%80%E5%89%8D%E8%B5%B0).flac", type: "audio/flac" }
+            { title: "王菲 - 如愿", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E7%8E%8B%E8%8F%B2%20-%20%E5%A6%82%E6%84%BF.flac", type: "audio/flac" },
+            { title: "王菲 - 世界赠予我的", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E7%8E%8B%E8%8F%B2%20-%20%E4%B8%96%E7%95%8C%E8%B5%A0%E4%BA%88%E6%88%91%E7%9A%84.flac", type: "audio/flac" },
+            { title: "早安 - 麒麟 (高燃版)", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E6%97%A9%E5%AE%89%20-%20%E9%BA%92%E9%BA%9F%20(%E9%AB%98%E7%87%83%E7%89%88).flac", type: "audio/flac" },
+            { title: "陶喆 - 爱我还是他", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E9%99%B6%E5%96%86%20-%20%E7%88%B1%E6%88%91%E8%BF%98%E6%98%AF%E4%BB%96.flac", type: "audio/flac" },
+            { title: "黄征、羽泉 - 奔跑", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/%E9%BB%84%E5%BE%81%E3%80%81%E7%BE%BD%E6%B3%89%20-%20%E5%A5%94%E8%B7%91.flac", type: "audio/flac" },
+            { title: "PAMajor - 别回头", src: "https://pan.3666888.xyz/raw/app%E5%9B%BE%E7%89%87%E8%B5%84%E6%BA%90/PAMajor%20-%20%E5%88%AB%E5%9B%9E%E5%A4%B4%20(%E5%88%AB%E5%9B%9E%E5%A4%B4%E5%88%AB%E5%81%9C%E7%95%99%E5%BE%80%E5%89%8D%E8%B5%B0).flac", type: "audio/flac" }
         ];
         const audio = document.getElementById('main-audio');
-        const audioSource = document.getElementById('audio-source');
-        const currentTitle = document.getElementById('current-audio-title');
-        const playlistContainer = document.getElementById('audio-playlist');
-        const playlistToggle = document.getElementById('playlist-toggle');
-        const toggleArrow = document.getElementById('toggle-arrow');
-        let currentIndex = 0;
+        const source = document.getElementById('audio-source');
+        const title = document.getElementById('current-audio-title');
+        const playlist = document.getElementById('audio-playlist');
+        const toggle = document.getElementById('playlist-toggle');
+        const arrow = document.getElementById('toggle-arrow');
+        let curIndex = 0;
 
-        // 生成播放列表DOM
-        function renderPlaylist() {
-            playlistContainer.innerHTML = '';
-            audioList.forEach((item, index) => {
-                const playlistItem = document.createElement('div');
-                playlistItem.className = `playlist-item ${index === currentIndex ? 'active' : ''}`;
-                playlistItem.textContent = item.title;
-                playlistItem.onclick = () => playAudio(index);
-                playlistContainer.appendChild(playlistItem);
+        function renderList() {
+            playlist.innerHTML = '';
+            audioList.forEach((item, idx) => {
+                const div = document.createElement('div');
+                div.className = `playlist-item ${idx === curIndex ? 'active' : ''}`;
+                div.innerText = item.title;
+                div.onclick = () => play(idx);
+                playlist.appendChild(div);
             });
         }
 
-        // 播放逻辑 - 保留兼容性优化
-        function playAudio(index) {
-            currentIndex = index;
-            const targetAudio = audioList[index];
-            audioSource.src = targetAudio.src;
-            audioSource.type = targetAudio.type || 'audio/flac';
-            currentTitle.textContent = targetAudio.title;
+        function play(idx) {
+            if (idx === curIndex) return;
+            curIndex = idx;
+            const item = audioList[idx];
+            source.src = item.src;
+            source.type = item.type;
+            title.innerText = item.title;
             audio.load();
-            try {
-                audio.play().catch(err => {
-                    console.log('需用户交互后播放：', err);
-                    currentTitle.textContent += '（请点击播放按钮）';
-                });
-            } catch (e) {
-                console.error('播放失败：', e);
-            }
-            renderPlaylist();
+            audio.play().catch(() => title.innerText = item.title + '（点击播放）');
+            renderList();
         }
 
-        // 折叠/展开切换函数
-        function togglePlaylist() {
-            playlistContainer.classList.toggle('show');
-            toggleArrow.classList.toggle('active');
-        }
-
-        // 刷新页面随机播放一首
-        function randomPlayOnLoad() {
-            currentIndex = Math.floor(Math.random() * audioList.length);
-            playAudio(currentIndex);
-        }
-
-        // 页面加载完成后执行
-        window.onload = () => {
-            renderPlaylist();
-            randomPlayOnLoad();
-            playlistToggle.addEventListener('click', togglePlaylist);
+        toggle.onclick = () => {
+            playlist.classList.toggle('show');
+            arrow.classList.toggle('active');
         };
 
-        // 2. 原有页面功能代码
+        window.onload = () => {
+            renderList();
+            curIndex = Math.floor(Math.random() * audioList.length);
+            play(curIndex);
+        };
+
+        // 域名生成/复制功能（主站核心功能）
         function copyText(btn, text) {
             navigator.clipboard.writeText(text).then(() => {
-                const originalText = btn.textContent;
-                btn.textContent = "Copied";
+                const old = btn.innerText;
+                btn.innerText = 'Copied';
                 btn.classList.add('success');
                 setTimeout(() => {
-                    btn.textContent = originalText;
+                    btn.innerText = old;
                     btn.classList.remove('success');
                 }, 1500);
-            }).catch(err => {
-                alert("复制失败，请手动复制");
-                console.error('复制失败: ', err);
-            });
+            }).catch(() => alert('复制失败，请手动复制！'));
         }
 
         function checkPrefix() {
-            const prefixInput = document.getElementById('prefix-input');
-            const tipText = document.getElementById('tip-text');
+            const input = document.getElementById('prefix-input');
+            const tip = document.getElementById('tip-text');
             const reg = /^[a-zA-Z0-9_\-]+$/;
-            const prefix = prefixInput.value.trim();
-
-            if (prefix === '') {
-                prefixInput.classList.remove('valid', 'invalid');
-                tipText.textContent = '';
+            const val = input.value.trim();
+            if (!val) {
+                input.className = 'prefix-input';
+                tip.innerText = '';
                 return;
             }
-
-            if (reg.test(prefix)) {
-                prefixInput.classList.add('valid');
-                prefixInput.classList.remove('invalid');
-                tipText.textContent = '';
-            } else {
-                prefixInput.classList.add('invalid');
-                prefixInput.classList.remove('valid');
-                tipText.textContent = '前缀仅支持字母、数字、下划线和短横线';
-            }
+            input.className = reg.test(val) ? 'prefix-input valid' : 'prefix-input invalid';
+            tip.innerText = reg.test(val) ? '' : '前缀仅支持字母、数字、下划线和短横线';
         }
 
-        function fillAndGenerate(prefix) {
-            const prefixInput = document.getElementById('prefix-input');
-            prefixInput.value = prefix;
+        function fillAndGenerate(p) {
+            document.getElementById('prefix-input').value = p;
             generateDomain();
         }
 
         function generateDomain() {
-            const prefixInput = document.getElementById('prefix-input');
-            const prefix = prefixInput.value.trim();
-            const domain = document.getElementById('domain-select').value;
-            const tipText = document.getElementById('tip-text');
-            const resultDomain = document.getElementById('result-domain');
-            const resultCopyBtn = document.querySelector('.result-copy-btn');
+            const input = document.getElementById('prefix-input');
+            const select = document.getElementById('domain-select');
+            const tip = document.getElementById('tip-text');
+            const result = document.getElementById('result-domain');
+            const copyBtn = document.querySelector('.result-copy-btn');
+            const val = input.value.trim();
             const reg = /^[a-zA-Z0-9_\-]+$/;
 
-            if (!prefix) {
-                alert("请输入自定义前缀！");
+            if (!val) {
+                alert('请输入自定义前缀！');
                 return;
             }
-
-            if (!reg.test(prefix)) {
-                tipText.textContent = '前缀格式非法，请修改后重试';
+            if (!reg.test(val)) {
+                tip.innerText = '前缀格式非法，请修改后重试';
                 return;
             }
-
-            const fullDomain = `${prefix}.${domain}`;
-            resultDomain.textContent = fullDomain;
-            resultDomain.style.display = 'block';
-            resultCopyBtn.style.display = 'block';
+            const full = `${val}.${select.value}`;
+            result.innerText = full;
+            result.style.display = 'block';
+            copyBtn.style.display = 'block';
         }
 
         function copyResult() {
-            const resultText = document.getElementById('result-domain').textContent;
-            if (!resultText) {
-                alert("请先生成域名！");
+            const result = document.getElementById('result-domain');
+            const copyBtn = document.querySelector('.result-copy-btn');
+            const val = result.innerText.trim();
+            if (!val) {
+                alert('请先生成域名！');
                 return;
             }
-            const btn = document.querySelector('.result-copy-btn');
-            btn.textContent = "已复制";
-            btn.classList.add('success');
-            setTimeout(() => {
-                btn.textContent = "复制生成的域名";
-                btn.classList.remove('success');
-            }, 1500);
-            navigator.clipboard.writeText(resultText).catch(err => {
-                alert("复制失败，请手动复制");
-                console.error('复制失败: ', err);
-            });
+            navigator.clipboard.writeText(val).then(() => {
+                copyBtn.innerText = '已复制';
+                copyBtn.classList.add('success');
+                setTimeout(() => {
+                    copyBtn.innerText = '复制生成的域名';
+                    copyBtn.classList.remove('success');
+                }, 1500);
+            }).catch(() => alert('复制失败，请手动复制！'));
         }
     </script>
 </body>
