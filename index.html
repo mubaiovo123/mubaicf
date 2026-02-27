@@ -1144,12 +1144,12 @@
     </div>
 
     <script>
-        // 核心：5秒倒计时+模糊层控制，仅前端交互，不影响主站
+        // 核心:3秒倒计时+模糊层控制，仅前端交互，不影响主站
         (function() {
             const modal = document.getElementById('privacyModal');
             const btn = document.getElementById('privacyConfirmBtn');
             const blurLayer = document.getElementById('privacyBlurLayer');
-            let count = 5;
+            let count = 3;
             const timer = setInterval(() => {
                 count--;
                 btn.innerText = `我确认此条款 (${count})`;
