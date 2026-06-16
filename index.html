@@ -213,6 +213,7 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
+            opacity: 1;
         }
 
         /* 侧边微型播放器样式 */
@@ -258,7 +259,7 @@
 <!-- 侧边悬浮微型播放器 -->
 <div class="mini-audio-wrap">
     <button class="audio-control-btn" id="playBtn">暂停</button>
-    <span class="audio-text">bupa背景音乐</span>
+    <span class="audio-text">背景音乐</span>
     <audio id="bgMusic" loop>
         <source src="/music/bupa.mp3" type="audio/mpeg">
     
@@ -323,7 +324,6 @@ const bgMusic = document.getElementById('bgMusic');
 const playBtn = document.getElementById('playBtn');
 let isPlaying = true;
 
-// 页面加载完成自动播放（需用户首次点击页面触发，浏览器限制）
 window.addEventListener('load', () => {
     document.addEventListener('click', autoPlayAudio, { once: true });
 });
@@ -331,7 +331,6 @@ function autoPlayAudio(){
     bgMusic.play().catch(()=>{});
 }
 
-// 播放/暂停切换按钮
 playBtn.addEventListener('click', ()=>{
     if(isPlaying){
         bgMusic.pause();
@@ -343,14 +342,10 @@ playBtn.addEventListener('click', ()=>{
     isPlaying = !isPlaying;
 })
 
-// 隐私弹窗逻辑（移除倒计时，按钮直接可用）
-(function() {
-    const modal = document.getElementById('privacyModal');
-    const btn = document.getElementById('privacyConfirmBtn');
-    btn.onclick = function() {
-        modal.style.display = 'none';
-    };
-})();
+// 修复确认按钮点击失效
+document.getElementById('privacyConfirmBtn').onclick = function() {
+    document.getElementById('privacyModal').style.display = 'none';
+};
 
 // 复制域名函数
 function copyText(btn, text) {
