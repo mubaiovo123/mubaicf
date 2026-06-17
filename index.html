@@ -21,7 +21,7 @@
             padding-top: 30px;
             background: #f5f7fa;
         }
-        。card {
+        .card {
             background: rgba(255,255,255,0.85);
             width: 100%;
             max-width: 400px;
@@ -32,7 +32,7 @@
             backdrop-filter: blur(4px);
             position: relative;
         }
-        。card::before {
+        .card::before {
             content: '';
             position: absolute;
             top: 0;
@@ -62,7 +62,7 @@
             font-size: 22px;
             margin-bottom: 8px;
         }
-        。subtitle {
+        .subtitle {
             color: #9aa5b1;
             font-size: 13px;
             margin-bottom: 20px;
@@ -96,14 +96,14 @@
             font-size: 14px;
             position: relative;
         }
-        。notice::before {
+        .notice::before {
             content: '💡';
             position: absolute;
             left: 10px;
             top: 50%;
             transform: translateY(-50%);
         }
-        。domain-item {
+        .domain-item {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
@@ -136,10 +136,10 @@
             align-self: flex-end;
             transition: all 0.2s;
         }
-        。copy-btn:hover {
+        .copy-btn:hover {
             transform: scale(1.05);
         }
-        。footer-text {
+        .footer-text {
             margin-top: 30px;
             color: #6e7c91;
             font-size: 13px;
@@ -167,7 +167,7 @@
             height: 100%;
             background: rgba(0,0,0,0.75);
             z-index: 9999;
-            display: flex;
+            display: none; /* 默认隐藏弹窗 */
             justify-content: center;
             align-items: center;
             padding: 15px;
@@ -199,7 +199,7 @@
             height: 100%;
             border: none;
         }
-        。privacy-modal-footer {
+        .privacy-modal-footer {
             padding: 15px 20px;
             text-align: center;
             border-top: 1px solid #eef2f5;
@@ -261,7 +261,7 @@
     <button class="audio-control-btn" id="playBtn">暂停</button>
     <span class="audio-text">背景音乐</span>
     <audio id="bgMusic" loop>
-        <source src="https://api.1d.mom/bupa.mp3" type="audio/mpeg"></source>
+        <source src="https://api.1d.mom/bupa.mp3" type="audio/mpeg">
     
 </div>
 
@@ -319,14 +319,17 @@
 </div>
 
 <script>
+// 页面加载后弹出隐私协议弹窗
+window.onload = function() {
+    document.getElementById('privacyModal').style.display = 'flex';
+}
+
 // 背景音乐播放器逻辑
 const bgMusic = document.getElementById('bgMusic');
 const playBtn = document.getElementById('playBtn');
 let isPlaying = true;
 
-window.addEventListener('load', () => {
-    document.addEventListener('click', autoPlayAudio, { once: true });
-});
+document.addEventListener('click', autoPlayAudio, { once: true });
 function autoPlayAudio(){
     bgMusic.play().catch(()=>{});
 }
@@ -342,7 +345,7 @@ playBtn.addEventListener('click', ()=>{
     isPlaying = !isPlaying;
 })
 
-// 修复确认按钮点击失效
+// 确认按钮关闭弹窗
 document.getElementById('privacyConfirmBtn').onclick = function() {
     document.getElementById('privacyModal').style.display = 'none';
 };
